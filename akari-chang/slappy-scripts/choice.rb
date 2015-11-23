@@ -1,5 +1,11 @@
 hear '(.+)(から選んで|どれ|どっち)' do |event|
   items = event.matches[1].split(/[　・、,と\s]+/)
+
+  # 途中でreturnすると落ちるからとりあえずコメントアウト
+  # if items.length < 2
+  #   return say "んん！？　一つしかないよ！んもぅ！あかりをからかって！", channel: event.channel, icon_emoji: ':akari2:'
+  # end
+
   if rand(100) > 20
     picked_item = items.sample
     if event.text.include?('好き')
