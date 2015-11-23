@@ -20,6 +20,11 @@ hear /slot|スロット/ do |event|
   say("わぁい 揃ったよ♪", channel: event.channel) if result.uniq.length == 1
 end
 
+hear /pair|couple|ペア|カップル/ do |event|
+  src = slot_sources.sample
+  say %W(#{src.sample} #{src.sample}).join(" ") , channel: event.channel
+end
+
 hear /カジノ|casino/ do |event|
   src = slot_sources.sample
   result = []
