@@ -1,15 +1,16 @@
 
 students = %w(:ayano: :chitose: :himawari: :rise: :sakurako:)
 goraku = %w(:akari: :chi-nya: :kyoko: :yui:)
-slot_sources = [students, goraku]
+all_members = students + goraku
+slot_sources = [students, goraku, all_members]
 
-def slot_hit?(patterns)
+def casino_hit?(patterns)
   # 揃ったカウント返したほうがいいかもな
-  return true if patterns[0,3].uniq.length == 1
-  return true if patterns[3,3].uniq.length == 1
-  return true if patterns[6,3].uniq.length == 1
-  return true if patterns.values_at(0, 4, 8).uniq.length == 1
-  return true if patterns.values_at(2, 4, 6).uniq.length == 1
+  patterns.each_slice(3) do |line|
+    return true if line.uniq.one?
+  end
+  return true if patterns.values_at(0, 4, 8).uniq.one?
+  return true if patterns.values_at(2, 4, 6).uniq.one?
 end
 
 hear /slot|スロット/ do |event|
@@ -17,7 +18,7 @@ hear /slot|スロット/ do |event|
   result = []
   3.times{ result << src.sample }
   say result.join(' '), channel: event.channel
-  say("わぁい 揃ったよ♪", channel: event.channel) if result.uniq.length == 1
+  say("わぁい 揃ったよ♪", channel: event.channel) if result.uniq.one?
 end
 
 hear /pair|couple|ペア|カップル/ do |event|
@@ -33,7 +34,7 @@ hear /カジノ|casino/ do |event|
   lines = result.each_slice(3) 
   say lines.map(&:join).join("\n"), channel: event.channel # join join ﾄｷｨ
   
-  say("わぁい 揃ったよ♪", channel: event.channel) if slot_hit?(result) 
-  say(":bell::moneybag:フィーバー♪♪:bell::moneybag:", channel: event.channel) if result.uniq.length == 1
+  say("わぁい 揃ったよ♪", channel: event.channel) if casino_hit?(result) 
+  say(":bell::moneybag:フィーバー♪♪:bell::moneybag:", channel: event.channel) if result.uniq.one?
 end
 
