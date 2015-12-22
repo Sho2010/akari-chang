@@ -1,4 +1,7 @@
+require "./lib/diet/diet_configuration"
+
 Slappy.configure do |config|
+
   ## Slappy Settings
   #
   # token:
@@ -58,4 +61,14 @@ Slappy.configure do |config|
   #    URL to an image to use as the icon for this message
   #
   config.robot.icon_url = 'https://avatars.slack-edge.com/2015-04-30/4669912688_bfa4570b7da9421d1b07_48.jpg'  
+
+  # diet機能用の設定
+  # google spread sheet settings
+  config.extend Slappy::Diet
+
+  # config.diet.client_id = ''
+  # config.diet.client_secret = ''
+  # config.diet.refresh_token = ''
+  # config.diet.sheet_id  = ''
+
 end
